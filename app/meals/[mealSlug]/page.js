@@ -1,9 +1,18 @@
-import classes from 'next/image';
 import Image from "next/image";
+import { notFound } from "next/navigation";
+
 import {getMeal} from "@/lib/meals";
-export default function MealDetailsPage({params }) {
+import classes from './page.module.css';
+
+export default function MealDetailsPage({ params }) {
     const meal = getMeal(params.mealSlug);
+
+    if (!meal) {
+        notFound();
+    }
+
     meal.instructions = meal.instructions.replace(/\n/g, '<br>');
+
     return (
         <>
             <header className={classes.header}>
@@ -18,11 +27,14 @@ export default function MealDetailsPage({params }) {
                     <p className={classes.summary}>{meal.summary}</p>
                 </div>
             </header>
-            <mian>
-                <p className={classes.instructions} dangerouslySetInnerHTML={{
-                    __html: meal.instructions,
-                }}></p>
-            </mian>
+            <main>
+                <p
+                    className={classes.instructions}
+                    dangerouslySetInnerHTML={{
+                        __html: meal.instructions,
+                    }}
+                ></p>
+            </main>
         </>
     );
 }
