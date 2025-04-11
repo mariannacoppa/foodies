@@ -1,10 +1,14 @@
 'use client';
-import {useRef, useState} from "react";
+
+import { useRef, useState } from 'react';
+import Image from 'next/image';
+
 import classes from './image-picker.module.css';
-import Image from "next/image";
-export default function imagePicker({label, name}) {
+
+export default function ImagePicker({ label, name }) {
     const [pickedImage, setPickedImage] = useState();
     const imageInput = useRef();
+
     function handlePickClick() {
         imageInput.current.click();
     }
@@ -13,7 +17,6 @@ export default function imagePicker({label, name}) {
         const file = event.target.files[0];
 
         if (!file) {
-            setPickedImage(null);
             return;
         }
 
@@ -21,7 +24,7 @@ export default function imagePicker({label, name}) {
 
         fileReader.onload = () => {
             setPickedImage(fileReader.result);
-        }
+        };
 
         fileReader.readAsDataURL(file);
     }
@@ -35,23 +38,26 @@ export default function imagePicker({label, name}) {
                     {pickedImage && (
                         <Image
                             src={pickedImage}
-                            alt={"The image selected by the user."}
+                            alt="The image selected by the user."
                             fill
                         />
                     )}
                 </div>
                 <input
                     className={classes.input}
-                    type={"file"}
+                    type="file"
                     id={name}
-                    accept={"image/jpeg, image/png"}
+                    accept="image/png, image/jpeg"
                     name={name}
                     ref={imageInput}
                     onChange={handleImageChange}
-                    required
                 />
-                <button className={classes.button} type={"button"} onClick={handlePickClick}>
-                    Pick an image
+                <button
+                    className={classes.button}
+                    type="button"
+                    onClick={handlePickClick}
+                >
+                    Pick an Image
                 </button>
             </div>
         </div>
